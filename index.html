@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p></p>
+
+    <button onclick="getLocation()">Allow For Location</button>
+
+    <p id="demo"></p>
+    <p id="houseNumber"></p>
+    <p id="street"></p>
+    <p id="subLocality"></p>
+    <p id="locality"></p>
+    <p id="district"></p>
+    <p id="country"></p>
+    <p id="city"></p>
+    <p id="state"></p>
+    <p id="zip"></p>
+    <p id="cc"></p>
+    <p id="accu"></p>
+    <p id="formAdd"></p>
+
+    <script>
+      var x = document.getElementById("demo");
+      var houseNumber = document.getElementById("houseNumber");
+      var street = document.getElementById("street");
+      var subLocality = document.getElementById("subLocality");
+      var locality = document.getElementById("locality");
+      var district = document.getElementById("district");
+      var country = document.getElementById("country");
+      var city = document.getElementById("city");
+      var state = document.getElementById("state");
+      var zip = document.getElementById("zip");
+      var cc = document.getElementById("cc");
+      var accu = document.getElementById("accu");
+      var formAdd = document.getElementById("formAdd");
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showPosition(position) {
+        x.innerHTML =
+          "Latitude: " +
+          position.coords.latitude +
+          "<br>Longitude: " +
+          position.coords.longitude;
+
+        let obj = {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        };
+
+        Object.freeze(obj);
+
+        fetch("http://localhost:8081/fetch", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(obj),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            houseNumber.innerHTML = "House Number :" + data.message.houseNumber;
+            street.innerHTML = "Street :" + data.message.street;
+            subLocality.innerHTML = "Sub Locality:" + data.message.subLocality;
+            locality.innerHTML = "Locality :" + data.message.locality;
+            district.innerHTML = "District :" + data.message.district;
+            country.innerHTML = "Country :" + data.message.country;
+            city.innerHTML = "City" + data.message.city;
+            state.innerHTML = "State :" + data.message.state;
+            zip.innerHTML = "Pin Code : " + data.message.pincode;
+            street.innerHTML = "Street Name :" + data.message.streetName;
+            cc.innerHTML = "Country Code " + data.message.area;
+            formAdd.innerHTML =
+              "formatted address :" + data.message.formatted_address;
+          });
+      }
+    </script>
+  </body>
+</html>
