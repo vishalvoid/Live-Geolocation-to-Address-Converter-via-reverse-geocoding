@@ -4,8 +4,8 @@ This is a Node.js and Express.js application that converts HTML5 geolocation coo
 
 ## Prerequisites
 
-- Node.js (version X.X.X or higher)
-- npm (version X.X.X or higher)
+- Node.js (version 19.9.X or higher)
+- npm (version 9.6.X or higher)
 - MapMyIndia API KEY
 
 ## Installation
